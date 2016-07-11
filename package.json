@@ -1,0 +1,27 @@
+{
+  "name": "samaggi",
+  "version": "1.0.0",
+  "description": "Latest news and events of Thai Society Samaggi Connect",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tahnik/samaggisamagom.git"
+  },
+  "keywords": [
+    "samaggi",
+    "samagom",
+    "thai"
+  ],
+  "author": "Tahnik Mustasin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tahnik/samaggisamagom/issues"
+  },
+  "homepage": "https://github.com/tahnik/samaggisamagom#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
