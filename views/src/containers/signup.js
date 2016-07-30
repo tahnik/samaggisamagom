@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { signin } from '../actions/auth_actions';
+import { signup } from '../actions/auth_actions';
 import { Link } from 'react-router';
 
 class Signin extends Component {
 	onSubmit(props) {
-		this.props.signin(props);
+		this.props.signup(props);
 	}
 	render() {
 		const { fields: { email, password }, handleSubmit } = this.props;
@@ -13,7 +13,7 @@ class Signin extends Component {
 			<div className="row">
 				<div className="col-md-offset-4 col-md-4" style={{ marginTop: '1em' }}>
 					<form onSubmit={handleSubmit((props) => this.onSubmit(props))}>
-						<h3>Sign in</h3>
+						<h3>Sign up</h3>
 
 						<div className="form-group">
 							<label>Email</label>
@@ -25,10 +25,8 @@ class Signin extends Component {
 							<input type="password" className="form-control" {...password} />
 						</div>
 
-						<button type="submit" className="btn btn-primary">Sign in</button>
+						<button type="submit" className="btn btn-primary">Sign up</button>
 						<Link to="/" className="btn btn-danger" style={{ marginLeft: 10 }}>Cancel</Link>
-						<br /> <br />
-						<Link to="/signup">Not Registered?</Link>
 					</form>
 				</div>
 			</div>
@@ -39,4 +37,4 @@ class Signin extends Component {
 export default reduxForm({
 	form: 'PostsNewNews',
 	fields: ['email', 'password']
-}, null, { signin })(Signin);
+}, null, { signup })(Signin);

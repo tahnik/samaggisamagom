@@ -1,13 +1,41 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import { signout } from '../actions/auth_actions';
+import { browserHistory } from 'react-router';
+
 
 class Header extends Component {
+    redirectAuth() {
+        if(this.props.authentication.authenticated){
+            this.props.signout();
+        }else {
+            browserHistory.push('/signin');
+        }
+    }
+    renderCreatePost(){
+        if(this.props.authentication.authenticated){
+            return (
+                <li className="nav-item active">
+                    <Link to={`/create/news`}><button type="button" className="btn top_nav_buttons">Create News</button></Link>
+                </li>
+            )
+        }else {
+            return (<div></div>)
+        }
+    }
     render(){
+        var auth_state;
+        if(this.props.authentication.authenticated){
+            auth_state = 'Sign out';
+        }else {
+            auth_state = 'Sign in'
+        }
         return(
             <div>
                 <div className="row">
                     <div className="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 col-md-offset-5 col-md-2 col-lg-offset-0 col-lg-2">
-                        <img style={{ width: '100%' }} src="http://samaggisamagom.org/resources/samaggi.png" />
+                        <img style={{ width: '100%' }} src="http://samaggisamagom.org/resources/samaggi.jpg" />
                     </div>
                     <div className="col-xs-12 col-md-12 col-lg-10 top_nav">
                             <nav className="navbar">
@@ -29,11 +57,9 @@ class Header extends Component {
                                             <input type="text" className="form-control" placeholder="Search" />
                                         </li>
                                         <li className="nav-item">
-                                            <Link to={`/signin`}><button type="button" className="btn top_nav_buttons">Sign in</button></Link>
+                                            <button type="button" className="btn top_nav_buttons" onClick={() => this.redirectAuth()}>{ auth_state }</button>
                                         </li>
-                                        <li className="nav-item">
-                                            <button type="button" className="btn top_nav_buttons">Register</button>
-                                        </li>
+                                        { this.renderCreatePost() }
                                     </ul>
                                 </div>
                             </nav>
@@ -45,4 +71,8 @@ class Header extends Component {
     }
 }
 
-export default Header;
+function mapStateToProps(state) {
+    return { authentication: state.authentication };
+}
+
+export default connect(mapStateToProps, { signout })(Header);

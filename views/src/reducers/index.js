@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux';
-import NewsReducer from './news_reducers';
-import ActiveNews from './news_active_reducers';
+import { news, news_active, news_pagination } from './news_reducers';
 import {reducer as formReducer} from 'redux-form';
+import AuthReducer from './auth_reducers';
 
 const rootReducer = combineReducers({
-	allNews: NewsReducer,
+	allNews: news,
 	form: formReducer,
-	activeNews: ActiveNews
+	activeNews: news_active,
+	authentication: AuthReducer,
+	news_pagination: news_pagination
 });
 
 export default rootReducer;

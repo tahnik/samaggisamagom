@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import NewsHomeItem from './news_home_item';
-import { getAllNews } from '../actions/news_actions';
+import { getTopNews } from '../actions/news_actions';
 import { connect } from 'react-redux';
 
-class NewsHomeGrid extends Component {
+class NewsHome extends Component {
 	componentDidMount() {
-		this.props.getAllNews();
+		this.props.getTopNews();
 	}
 	render() {
 		if(this.props.allNews.length == 0) {
@@ -33,4 +33,4 @@ function mapStateToProps(state) {
 	}
 }
 
-export default connect(mapStateToProps, { getAllNews })(NewsHomeGrid);
+export default connect(mapStateToProps, { getTopNews })(NewsHome);

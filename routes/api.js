@@ -24,6 +24,8 @@ var upload = multer({ storage: storage });
 router.use(bodyParser.json()); // for parsing application/json
 router.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
+const NEWS_LIMIT = 9;
+
 
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
@@ -45,9 +47,11 @@ router.post('/signup', function(req, res) {
 						+ connection.escape(password) + ","
 						+ connection.escape(salt) + ")";
 	connection.query(signUpQuery, function(err, result) {
+		var token = jwt.sign({email: req.body.email, id: result.insertId}, superSecret, {expiresIn: req.body.expiresIn});
 		res.json({
 			success: true,
-			id: result.insertId
+			id: result.insertId,
+			token: token
 		})
 	})
 })
@@ -90,28 +94,59 @@ router.post('/signin', function(req, res) {
 	})
 })
 
-router.get('/news/:id', function(req, res) {
-	var getNewsQuery = "SELECT * FROM news WHERE id=" + req.params.id;
+
+router.get('/news', function(req, res) {
+	getNewsMax(req, res, getNewsByPage);
+})
+
+var getNewsByPage = function(page, maxNews, res) {
+	//First calculating the number of possible pages by dividing total number
+	//of news by NEWS_LIMIT. NEWS_LIMIT here is a static number for limiting the number of news
+	//in a page
+	var numberOfPages = Math.ceil(maxNews/NEWS_LIMIT);
+	console.log(numberOfPages);
+	if(page > numberOfPages) {
+		return res.json({
+			success: false,
+			message: "Page doesn't exists"
+		})
+	}
+	/* Here the offset is from which id the we will return the news.
+	 * For example, if the page is 1 we want to send the first 10 most recent news
+	 */
+	var offset = maxNews - ((page - 1) * NEWS_LIMIT);
+	var getNewsQuery = "SELECT * FROM news WHERE id <= " + offset + " ORDER BY id DESC LIMIT " + NEWS_LIMIT;
 	connection.query(getNewsQuery, function(err, result) {
 		if(err) {
 			console.log(err);
 		}else {
-			console.log(Date.now());
 			return res.json({
 				success: true,
-				news: result[0]
+				news: result,
+				maxNews: maxNews,
+				maxPage: numberOfPages
 			})
 		}
 	})
-})
+}
 
-router.get('/news/', function(req, res) {
-	var getNewsQuery = "SELECT * FROM news";
+var getNewsMax = function(req, res, callback) {
+	var getNewsMaxQuery = "SELECT MAX(id) as MAX_NEWS_ID FROM news";
+	connection.query(getNewsMaxQuery, function(err, result) {
+		if(err) {
+			console.log(err);
+		}else {
+			callback(req.query.page, result[0].MAX_NEWS_ID, res);
+		}
+	})
+}
+
+router.get('/news/top', function(req, res) {
+	var getNewsQuery = "SELECT * FROM news ORDER BY id DESC LIMIT 5";
 	connection.query(getNewsQuery, function(err, result) {
 		if(err) {
 			console.log(err);
 		}else {
-			console.log(Date.now());
 			return res.json({
 				success: true,
 				news: result
@@ -120,24 +155,39 @@ router.get('/news/', function(req, res) {
 	})
 })
 
+router.get('/news/:id', function(req, res) {
+	var getNewsQuery = "SELECT * FROM news WHERE id=" + req.params.id;
+	connection.query(getNewsQuery, function(err, result) {
+		if(err) {
+			console.log(err);
+		}else {
+			return res.json({
+				success: true,
+				news: result[0]
+			})
+		}
+	})
+})
+
+
 router.post('/news', upload.single('news_image'), function(req, res) {
-	// if(!req.body.token && !req.body.Token) {
-	// 	return res.json({
-	// 		success: false,
-	// 		message: "No token provided"
-	// 	})
-	// }
-	// jwt.verify(req.body.token, superSecret, function(err, decoded) {
-	// 	if(err) {
-	// 		return res.json({
-	// 			success: false,
-	// 			message: "Token is not valid"
-	// 		})
-	// 	} else {
+	console.log(req.body.token);
+	if(!req.body.token && !req.body.Token) {
+		return res.json({
+			success: false,
+			message: "No token provided"
+		})
+	}
+	jwt.verify(req.body.token, superSecret, function(err, decoded) {
+		if(err) {
+			return res.json({
+				success: false,
+				message: "Token is not valid"
+			})
+		} else {
 			var title = req.body.title;
 			var body = req.body.body;
-			var user_id = 2;
-			// var user_id = decoded.id;
+			var user_id = decoded.id;
 
 			if( title != "" || body != "") {
 				var insertNewsQuery = "INSERT INTO news (user_id, title, image_path, body) VALUES("
@@ -164,8 +214,8 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 					message: "News Title or Body is empty"
 				})
 			}
-	// 	}
-	// })
+		}
+	})
 })
 
 module.exports = router;

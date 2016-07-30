@@ -5,7 +5,7 @@ class News extends Component {
     render() {
         return(
             <div className="row">
-                <NewsMain />
+                <NewsMain params={this.props} />
             </div>
         );
     }

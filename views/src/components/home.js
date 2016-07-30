@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import NewsHomeGrid from '../containers/news_home_grid';
+import NewsHome from '../containers/news_home';
 
 class Home extends Component {
     render() {
         return(
             <div className="row">
-                <NewsHomeGrid />
+                <NewsHome />
             </div>
         );
     }

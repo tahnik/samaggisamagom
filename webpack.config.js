@@ -21,19 +21,23 @@ module.exports = [
     externals: [nodeExternals()],
     resolve: {
         extensions: ['', '.js', '.jsx']
-    }
+    },
     //If you want to minify your files uncomment this
-    // ,
-    // plugins: [
-    //     new webpack.optimize.UglifyJsPlugin({
-    //         compress: {
-    //             warnings: false,
-    //         },
-    //         output: {
-    //             comments: false,
-    //         },
-    //     }),
-    // ]
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false,
+            },
+            output: {
+                comments: false,
+            },
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        })
+    ]
     },
     {
         entry: './views/index.js',
@@ -52,18 +56,22 @@ module.exports = [
         },
         resolve: {
             extensions: ['', '.js', '.jsx']
-        }
+        },
         //If you want to minify your files uncomment this
-        // ,
-        // plugins: [
-        //     new webpack.optimize.UglifyJsPlugin({
-        //         compress: {
-        //             warnings: false,
-        //         },
-        //         output: {
-        //             comments: false,
-        //         },
-        //     }),
-        // ]
+        plugins: [
+            new webpack.optimize.UglifyJsPlugin({
+                compress: {
+                    warnings: false,
+                },
+                output: {
+                    comments: false,
+                },
+            }),
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('production')
+                }
+            })
+        ]
     }
 ]

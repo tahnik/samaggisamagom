@@ -51,10 +51,28 @@ function renderFullPage(html, initialState) {
     	<meta charset="utf-8">
     	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     	<meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="author" content="Tahnik Mustasin">
+        <meta name="Copyright" content="Tahnik Mustasin" />
+        <meta name="Robots" content="INDEX,ALL" />
+        <meta name="YahooSeeker" content="INDEX, FOLLOW" />
+        <meta name="msnbot" content="INDEX, FOLLOW" />
+        <meta name="googlebot" content="INDEX, FOLLOW" />
+        <meta name="allow-search" content="yes" />
+        <meta name="revisit-after" content="daily" />
+        <meta name="Rating" content="General" />
+        <meta name="site" content="http://www.samaggisamagom.org" />
+        <meta name="distribution" content="global" />
+        <meta name="keywords" content="samaggi, samagom, thai, society, samaggisamagom">
+        <!--Setting some keyword for search engines -->
+        <meta name="description" content="A society for Thai Society Samaggi Conenct">
+        <!-- Setting a description -->
+        <meta name="language" content="English" />
+        <title>SamaggiSamagom</title>
 
     	<!-- Bootstrap CSS -->
     	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
     	<link rel="stylesheet" href="../stylesheets/main.css">
+        <link rel="shortcut icon" href="../resources/favicon.ico">
     </head>
     <body>
 
@@ -64,7 +82,7 @@ function renderFullPage(html, initialState) {
           </script>
     	<script src="../bin/app.bundle.js"></script>
     	<!-- jQuery first, then Bootstrap JS. -->
-    	<script src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+    	<script src="../javascripts/tether.min.js"></script>
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
     </body>
