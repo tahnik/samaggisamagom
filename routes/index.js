@@ -12,6 +12,7 @@ import reducers from '../views/src/reducers/index';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 
 router.get('/', function (req, res) {
 	match({ routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {
@@ -34,7 +35,15 @@ router.get('/', function (req, res) {
 
 			const finalState = store.getState();
 
-			res.status(200).send(renderFullPage(html, finalState));
+            var url = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css"
+            axios.get(url)
+            .then(response => {
+                res.status(200).send(renderFullPage(html, finalState, response));
+            })
+            .catch(() => {
+                console.log("There's a problem");
+            });
+
 		} else {
 			res.status(404).send('Not found')
 		}
@@ -42,7 +51,7 @@ router.get('/', function (req, res) {
 });
 
 
-function renderFullPage(html, initialState) {
+function renderFullPage(html, initialState, boostrapCSS) {
 	return `
     <!DOCTYPE html>
     <html lang="en">
@@ -70,8 +79,12 @@ function renderFullPage(html, initialState) {
         <title>SamaggiSamagom</title>
 
     	<!-- Bootstrap CSS -->
-    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
-    	<link rel="stylesheet" href="../stylesheets/main.css">
+        <style>
+            ${boostrapCSS.data}
+        </style>
+    	<style>
+            .main,.row,.vertical-center{position:relative}.top_nav,.vertical-center{top:50%;transform:translateY(-50%)}#exCollapsingNavbar2>ul>li>input,.top_nav_buttons{border-radius:0;box-shadow:0 1px 3px grey}.row{margin:0}#reactbody{text-align:center}.main{margin-top:5vh}.top_nav{right:0;position:absolute}@media (min-width:992px){#exCollapsingNavbar2>ul>li>input{width:30vw}}@media (max-width:992px){.top_nav{position:relative;top:0;transform:translateY(0)}.navbar{margin:0 auto}#exCollapsingNavbar2>ul>li.nav-item{float:none;margin:8px 0}}.top_nav_buttons{background-color:#e04226;color:#fff}
+    	</style>
         <link rel="shortcut icon" href="../resources/favicon.ico">
     </head>
     <body>

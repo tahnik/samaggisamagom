@@ -38,6 +38,7 @@ export function getTopNews() {
 
 		axios.get(url)
 		.then(response => {
+			console.log(response);
 			dispatch({
 				type: TOP_NEWS,
 				payload: response
@@ -94,6 +95,23 @@ export function getNews(id) {
 		.catch(() => {
 			dispatch(authError('Bad Login Info'));
 		});
+	}
+}
+
+
+//This function is used to destroy the current active news item.
+//Without this a single news page will show the previous news for a split second and re render
+export function destroyActiveNews() {
+	return function(dispatch){
+		var response = {
+			data: {
+				news: null
+			}
+		}
+		dispatch({
+			type: ACTIVE_NEWS,
+			payload: response
+		})
 	}
 }
 

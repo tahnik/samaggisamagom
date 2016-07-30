@@ -22,7 +22,6 @@ class NewsMainItem extends Component {
                     </div>
                     <img style={{ width: '100%' }} src={url} alt="Card image" />
                     <div className="card-block">
-                        <p className="card-text">{trimmedString}</p>
                         <Link to={`/news/${this.props.news.id}`}><button type="button" className="btn btn-primary">Read more</button></Link>
                     </div>
                 </div>
@@ -32,3 +31,5 @@ class NewsMainItem extends Component {
 }
 
 export default NewsMainItem;
+
+//<p className="card-text">{trimmedString}</p>
