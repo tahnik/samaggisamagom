@@ -6,7 +6,7 @@ import Signin from './containers/signin';
 import Signup from './containers/signup';
 import NewsItem from './containers/news_item';
 import CreateNews from './containers/create_news';
-import requireAuth from './containers/require_auth';
+import requireAuthAdmin from './containers/require_auth_admin';
 
 import Header from './components/header';
 
@@ -16,7 +16,7 @@ export default (
             <IndexRoute component={Home} />
             <Route path="/signin" component={Signin} />
             <Route path="/signup" component={Signup} />
-            <Route path="/create/news" component={requireAuth(CreateNews)} />
+            <Route path="/create/news" component={requireAuthAdmin(CreateNews)} />
             <Route path="/news" component={News} />
             <Route path="/news/:id" component={NewsItem} />
         </Route>

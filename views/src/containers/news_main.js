@@ -39,6 +39,18 @@ class NewsMain extends Component {
 		}
 		window.scrollTo(0, 0);
 	}
+	renderNews(){
+		var i = 0;
+		var newsItems = [];
+		this.props.allNews.map((news) => {
+			if(i === 3) {
+				newsItems.push(<div className="col-md-12" style={{ marginBottom: "20px" }} />)
+			}
+			newsItems.push(<NewsMainItem key={news.id} news={news} />);
+			i++;
+		})
+		return newsItems;
+	}
 	render() {
 		if(this.props.allNews.length == 0) {
 			return (
@@ -50,11 +62,7 @@ class NewsMain extends Component {
 		return(
 			<div className="col-md-offset-1 col-md-10" style={{ marginTop: '1em'}}>
 				<div className="row">
-	   				{ this.props.allNews.map((news) => {
-						return (
-							<NewsMainItem key={news.id} news={news} />
-						)
-					}) }
+	   				{this.renderNews()}
 				</div>
 				<Pagination
 					currentPage={this.props.news_pagination.page}

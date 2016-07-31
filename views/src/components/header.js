@@ -13,15 +13,36 @@ class Header extends Component {
             browserHistory.push('/signin');
         }
     }
+    renderRole(){
+        if(this.props.authentication.role == 1){
+            return(
+                <Link to={`/create/news`}><button type="button" className="dropdown-item">Create News</button></Link>
+            )
+        }else {
+            return (<div></div>)
+        }
+    }
     renderCreatePost(){
         if(this.props.authentication.authenticated){
             return (
                 <li className="nav-item active">
-                    <Link to={`/create/news`}><button type="button" className="btn top_nav_buttons">Create News</button></Link>
+                    <div className="btn-group">
+                        <button className="btn top_nav_buttons dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Navigation
+                        </button>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={{ borderRadius: 0, backgroundColor: "#e04226" }}>
+                            {this.renderRole()}
+                            <button type="button" className="dropdown-item" onClick={() => this.redirectAuth()}>Sign out</button>
+                        </div>
+                    </div>
                 </li>
             )
         }else {
-            return (<div></div>)
+            return (
+                <li className="nav-item">
+                    <button type="button" className="btn top_nav_buttons" onClick={() => this.redirectAuth()}>Sign in</button>
+                </li>
+            )
         }
     }
     render(){
@@ -56,9 +77,7 @@ class Header extends Component {
                                         <li className="nav-item">
                                             <input type="text" className="form-control" placeholder="Search" />
                                         </li>
-                                        <li className="nav-item">
-                                            <button type="button" className="btn top_nav_buttons" onClick={() => this.redirectAuth()}>{ auth_state }</button>
-                                        </li>
+
                                         { this.renderCreatePost() }
                                     </ul>
                                 </div>

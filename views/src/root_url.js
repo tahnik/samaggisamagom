@@ -1,2 +1,2 @@
-export const ROOT_URL = `http://localhost:3000`;
-export const ROOT_URL_SECURE = `http://localhost:3000`;
+export const ROOT_URL = `http://www.samaggisamagom.org`;
+export const ROOT_URL_SECURE = `https://www.samaggisamagom.org`;

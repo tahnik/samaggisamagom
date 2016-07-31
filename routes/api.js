@@ -216,6 +216,32 @@ router.post('/signin', function(req, res) {
 	})
 })
 
+router.post('/verifyToken', function(req, res) {
+	jwt.verify(req.body.token, superSecret, function(err, decoded) {
+		if(err) {
+			return res.status("401").json({
+				success: false,
+				message: "Wrong token"
+			})
+		}else {
+			var getRoleQuery = "SELECT role FROM user_roles where id=" + decoded.id;
+
+			connection.query(getRoleQuery, function(err, result) {
+				if(err) {
+					return res.status("500").json({
+						success: false,
+						message: "Internal server error"
+					})
+				}else {
+					decoded.role = result[0].role;
+					decoded.success = true;
+					return res.status("200").json(decoded);
+				}
+			})
+		}
+	});
+})
+
 
 router.get('/news', function(req, res) {
 	getNewsMax(req, res, getNewsByPage);
@@ -311,31 +337,49 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 			var body = req.body.body;
 			var user_id = decoded.id;
 
-			if( title != "" || body != "") {
-				var insertNewsQuery = "INSERT INTO news (user_id, title, image_path, body) VALUES("
-									+ connection.escape(user_id) + ","
-									+ connection.escape(title) + ","
-									+ connection.escape(req.file.filename) + ","
-									+ connection.escape(body) + ")";
-				connection.query(insertNewsQuery, function(err, result) {
-					if(err) {
-						console.log(err);
-						res.json({
-							success: false,
-							message: "Failed to insert data"
-						})
+			var getRoleQuery = "SELECT role FROM user_roles where id=" + user_id;
+
+			connection.query(getRoleQuery, function(err, result) {
+				if(err) {
+					return res.status("500").json({
+						success: false,
+						message: "Internal server error"
+					})
+				}else {
+					if(result[0].role == 1){
+						if( title != "" || body != "") {
+							var insertNewsQuery = "INSERT INTO news (user_id, title, image_path, body) VALUES("
+												+ connection.escape(user_id) + ","
+												+ connection.escape(title) + ","
+												+ connection.escape(req.file.filename) + ","
+												+ connection.escape(body) + ")";
+							connection.query(insertNewsQuery, function(err, result) {
+								if(err) {
+									console.log(err);
+									res.json({
+										success: false,
+										message: "Failed to insert data"
+									})
+								}else {
+									return res.json({
+										success: true
+									})
+								}
+							})
+						} else {
+							return res.json({
+								success: false,
+								message: "News Title or Body is empty"
+							})
+						}
 					}else {
-						return res.json({
-							success: true
+						return res.status("401").json({
+							success: false,
+							message: "You are not authorized to perform this action"
 						})
 					}
-				})
-			} else {
-				return res.json({
-					success: false,
-					message: "News Title or Body is empty"
-				})
-			}
+				}
+			})
 		}
 	})
 })

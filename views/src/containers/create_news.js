@@ -8,7 +8,7 @@ class CreatePost extends Component {
 		this.props.createPost(props);
 	}
 	render() {
-		if(!this.props.authenticated){
+		if(!this.props.authenticated || this.props.role == 0){
 			return (
 				<div>
     				Loading...
@@ -49,7 +49,8 @@ class CreatePost extends Component {
 
 function mapStateToProps(state) {
 	return {
-		authenticated: state.authentication.authenticated
+		authenticated: state.authentication.authenticated,
+		role: state.authentication.role
 	}
 }
 

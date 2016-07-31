@@ -8,13 +8,13 @@ export default function(ComposedComponent) {
     }
 
     componentWillMount() {
-      if (!this.props.authenticated) {
+      if (!this.props.authenticated || this.props.role == 0) {
         this.context.router.push('/signin');
       }
     }
 
     componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
+      if (!nextProps.authenticated || nextProps.role == 0) {
         this.context.router.push('/signin');
       }
     }
@@ -25,7 +25,7 @@ export default function(ComposedComponent) {
   }
 
   function mapStateToProps(state) {
-    return { authenticated: state.authentication.authenticated };
+    return { authenticated: state.authentication.authenticated, role: state.authentication.role };
   }
 
   return connect(mapStateToProps)(Authentication);
