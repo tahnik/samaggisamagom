@@ -4,6 +4,13 @@ var index = require('./routes/index');
 var api = require('./routes/api');
 var newsImage = require('./routes/news_image');
 var cors = require('cors');
+var fs = require('fs')
+var morgan = require('morgan')
+var path = require('path')
+
+var accessLogStream = fs.createWriteStream(path.join('./', __dirname, 'logs/access.log'), {flags: 'a'})
+
+app.use(morgan('combined', {stream: accessLogStream}))
 
 app.use(cors());
 

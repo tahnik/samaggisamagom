@@ -6,18 +6,18 @@ class Pagination extends Component {
         var pagination = [];
         /* Algorithm to find out which page numbers to show. A better one might exist. */
         var leftMostPageNumber = 1;
-        var rightMostPageNumber = this.props.maxPage > 10 ? 9 : this.props.maxPage;
+        var rightMostPageNumber = this.props.maxPage > 6 ? 5 : this.props.maxPage;
 
         // this checks if the current page is more then 5. Then sets the page numbers accordingly
-        if(this.props.currentPage >= 5 && this.props.maxPage > 10) {
-            leftMostPageNumber = this.props.currentPage - 4;
+        if(this.props.currentPage >= 3 && this.props.maxPage > 6) {
+            leftMostPageNumber = this.props.currentPage - 2;
 
             // We've reached the end of pages. Need to truncate the last parts
-            if((this.props.currentPage + 4) > this.props.maxPage) {
+            if((this.props.currentPage + 2) > this.props.maxPage) {
                 rightMostPageNumber = this.props.currentPage + (this.props.maxPage - this.props.currentPage)
-                leftMostPageNumber = this.props.currentPage - ((this.props.currentPage + 4) - rightMostPageNumber) - 4;
+                leftMostPageNumber = this.props.currentPage - ((this.props.currentPage + 2) - rightMostPageNumber) - 2;
             }else {
-                rightMostPageNumber = this.props.currentPage + 4;
+                rightMostPageNumber = this.props.currentPage + 2;
             }
         }
         for(var i = leftMostPageNumber; i <= rightMostPageNumber ; i++) {

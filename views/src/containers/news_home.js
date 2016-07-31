@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 class NewsHome extends Component {
 	componentDidMount() {
-		this.props.getTopNews();
+		//this.props.getTopNews();
 	}
 	render() {
 		if(this.props.allNews.length == 0) {

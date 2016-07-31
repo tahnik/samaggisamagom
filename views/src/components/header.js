@@ -48,7 +48,7 @@ class Header extends Component {
                                             <Link to={`/`}><button type="button" className="btn top_nav_buttons">Home</button></Link>
                                         </li>
                                         <li className="nav-item active">
-                                            <Link to={`/news`}><button type="button" className="btn top_nav_buttons">News</button></Link>
+                                            <Link to={`/news?page=1`}><button type="button" className="btn top_nav_buttons">News</button></Link>
                                         </li>
                                         <li className="nav-item">
                                             <button type="button" className="btn top_nav_buttons">Events</button>

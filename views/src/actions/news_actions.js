@@ -38,7 +38,6 @@ export function getTopNews() {
 
 		axios.get(url)
 		.then(response => {
-			console.log(response);
 			dispatch({
 				type: TOP_NEWS,
 				payload: response

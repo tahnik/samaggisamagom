@@ -9,6 +9,8 @@ import { match, RouterContext } from 'react-router';
 import routes from '../views/src/routes';
 
 import reducers from '../views/src/reducers/index';
+import { ROOT_URL_SECURE } from '../views/src/root_url';
+import { PAGE_NEWS, TOP_NEWS, ACTIVE_NEWS, PAGINATION_NEWS } from '../views/src/actions/news_actions';
 
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -27,23 +29,33 @@ router.get('/', function (req, res) {
 
 			const store = createStore(reducers);
 
-			const html = renderToString(
-				<Provider store={store}>
-					<RouterContext {...renderProps} />
-				</Provider>
-			)
-
-			const finalState = store.getState();
-
-            var url = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.3/css/bootstrap.min.css"
-            axios.get(url)
+            var newsUrl = `${ROOT_URL_SECURE}/api/news/top`;
+            axios.get(newsUrl)
             .then(response => {
-                res.status(200).send(renderFullPage(html, finalState, response));
+                store.dispatch({
+    				type: TOP_NEWS,
+    				payload: response
+    			});
+
+                var htmlToSend = renderToString(
+    				<Provider store={store}>
+    					<RouterContext {...renderProps} />
+    				</Provider>
+    			)
+                var finalState = store.getState();
+                //console.log(finalState);
+                var url = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
+                axios.get(url)
+                .then(response => {
+                    res.status(200).send(renderFullPage(htmlToSend, finalState, response));
+                })
+                .catch(() => {
+                    console.log("There's a problem");
+                });
             })
             .catch(() => {
                 console.log("There's a problem");
             });
-
 		} else {
 			res.status(404).send('Not found')
 		}
