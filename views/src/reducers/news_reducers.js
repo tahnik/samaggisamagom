@@ -1,4 +1,4 @@
-import { PAGE_NEWS, TOP_NEWS, ACTIVE_NEWS, PAGINATION_NEWS } from '../actions/news_actions';
+import { PAGE_NEWS, TOP_NEWS, ACTIVE_NEWS, PAGINATION_NEWS, CREATE_POST } from '../actions/news_actions';
 
 export function news(state=[], action) {
     switch (action.type) {
@@ -27,6 +27,14 @@ export function news_pagination(state={page: null, maxNews: 10, maxPage: 10}, ac
                 maxNews: action.payload.data.maxNews,
                 maxPage: action.payload.data.maxPage
             };
+    }
+    return state;
+}
+
+export function create_news(state={loading: false}, action) {
+    switch(action.type) {
+        case CREATE_POST:
+            return { loading: action.loading, error: action.error }
     }
     return state;
 }

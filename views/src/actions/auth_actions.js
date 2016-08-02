@@ -5,98 +5,70 @@ import { browserHistory } from 'react-router';
 export const AUTH_USER = 'AUTH_USER';
 export const UNAUTH_USER = 'UNAUTH_USER';
 export const AUTH_ERROR = 'AUTH_ERROR';
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_UP = 'SIGN_UP';
+export const SIGN_OUT = 'SIGN_OUT';
+export const AUTH_LOADING = 'AUTH_LOADING';
 
-export function checkLocalAuth() {
-	return function(dispatch) {
-		var token = localStorage.getItem("token");
-		if(token) {
-			const url = `${ROOT_URL_SECURE}/api/verifyToken`;
-
-			//to send data as application/x-www-form-urlencoded
-			var params = new URLSearchParams();
-			params.append('token', token);
-
-			axios.post(url, params)
-			.then(response => {
-				if(!response.data.success){
-					localStorage.removeItem("token");
-					return;
-				}
-				dispatch({
-					type: AUTH_USER,
-					payload: response
-				});
-			})
-			.catch(() => {
-				dispatch(authError('Bad Login Info'));
-			});
-		}
-	}
-}
+// export function checkLocalAuth() {
+// 	return function(dispatch) {
+// 		var token = localStorage.getItem("token");
+// 		if(token) {
+// 			const url = `${ROOT_URL_SECURE}/api/verifyToken`;
+//
+// 			var params = {
+// 				token: token
+// 			}
+//
+// 			axios.post(url, params)
+// 			.then(response => {
+// 				if(!response.data.success){
+// 					localStorage.removeItem("token");
+// 					return;
+// 				}
+// 				dispatch({
+// 					type: AUTH_USER,
+// 					payload: response
+// 				});
+// 			})
+// 			.catch(() => {
+// 				dispatch(authError('Bad Login Info'));
+// 			});
+// 		}
+// 	}
+// }
 
 export function signin(props) {
-	return function(dispatch){
-		const url = `${ROOT_URL_SECURE}/api/signin`;
+	const url = `${ROOT_URL_SECURE}/api/signin`;
 
-		//to send data as application/x-www-form-urlencoded
-		var params = new URLSearchParams();
-		params.append('email', props.email);
-		params.append('password', props.password);
-		params.append('expiresIn', '10h');
+	var params = {
+		email: props.email,
+		password: props.password,
+		expiresIn: '10h'
+	}
 
-		axios.post(url, params)
-		.then(response => {
-			if(!response.data.success){
-				dispatch(authError('Bad Login Info'));
-				return;
-			}
-			dispatch({
-				type: AUTH_USER,
-				payload: response,
-				role: response.data.role
-			});
-			localStorage.setItem('token', response.data.token);
-			localStorage.setItem('role', response.data.role);
-			browserHistory.push('/');
-		})
-		.catch(() => {
-			dispatch(authError('Bad Login Info'));
-		});
+	var request = axios.post(url, params)
 
-
+	return {
+		type: SIGN_IN,
+		payload: request
 	}
 }
 
 export function signup(props) {
-	return function(dispatch){
-		const url = `${ROOT_URL_SECURE}/api/signup`;
+	const url = `${ROOT_URL_SECURE}/api/signup`;
 
-		//to send data as application/x-www-form-urlencoded
-		var params = new URLSearchParams();
-		params.append('email', props.email);
-		params.append('password', props.password);
-		params.append('expiresIn', '10h');
+	var params = {
+		email: props.email,
+		password: props.password,
+		expiresIn: '10h'
+	}
 
-		axios.post(url, params)
-		.then(response => {
-			if(!response.data.success){
-				dispatch(authError('Bad Login Info'));
-				return;
-			}
-			dispatch({
-				type: AUTH_USER,
-				payload: response,
-				role: response.data.role
-			});
-			localStorage.setItem('token', response.data.token);
-			localStorage.setItem('role', response.data.role);
-			browserHistory.push('/');
-		})
-		.catch(() => {
-			dispatch(authError('Bad Login Info'));
-		});
+	var request = axios.post(url, params)
 
-
+	return {
+		type: SIGN_UP,
+		payload: request
 	}
 }
 
@@ -105,12 +77,4 @@ export function signout() {
   localStorage.removeItem('role');
 
   return { type: UNAUTH_USER };
-}
-
-
-export function authError(error) {
-	return {
-		type: AUTH_ERROR,
-		payload: error
-	};
 }
