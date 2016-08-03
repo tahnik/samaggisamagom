@@ -6,19 +6,12 @@ var jwt = require('jsonwebtoken');
 var multer  = require('multer');
 var mime = require('mime');
 var crypto = require('crypto');
+var path = require("path");
+var fs = require('fs');
+var sharp = require('sharp');
 
 
-var storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, './news_images')
-	},
-	filename: function (req, file, cb) {
-		crypto.randomBytes(20, (err, buf) => {
-			if (err) console.log(err);
-			cb(null, buf.toString('hex') + "-" + Date.now() + '.' + mime.extension(file.mimetype));
-		});
-	}
-})
+var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 
 router.use(bodyParser.json()); // for parsing application/json
@@ -319,7 +312,6 @@ router.get('/news/:id', function(req, res) {
 
 
 router.post('/news', upload.single('news_image'), function(req, res) {
-	console.log(req.body.token);
 	if(!req.body.token && !req.body.Token) {
 		return res.json({
 			success: false,
@@ -351,7 +343,7 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 							var insertNewsQuery = "INSERT INTO news (user_id, title, image_path, body) VALUES("
 												+ connection.escape(user_id) + ","
 												+ connection.escape(title) + ","
-												+ connection.escape(req.file.filename) + ","
+												+ connection.escape(" ") + ","
 												+ connection.escape(body) + ")";
 							connection.query(insertNewsQuery, function(err, result) {
 								if(err) {
@@ -361,6 +353,41 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 										message: "Failed to insert data"
 									})
 								}else {
+									//Save the image
+
+									crypto.randomBytes(20, (err, buf) => {
+										if (err) console.log(err);
+										var filename = buf.toString('hex') + "-" + Date.now() + '.' + mime.extension(req.file.mimetype);
+										var smallFileUrl = path.join('./news_images/small', filename);
+										var mediumFileUrl = path.join('./news_images/medium', filename);
+										var largeFileUrl = path.join('./news_images/large', filename);
+										sharp(req.file.buffer)
+							            .resize(400, 300)
+							            .toFile(smallFileUrl, function(err) {
+							                // output.jpg is a 300 pixels wide and 200 pixels high image
+							                // containing a scaled and cropped version of input.jpg
+											console.log(err);
+							            });
+										sharp(req.file.buffer)
+							            .resize(800, 600)
+							            .toFile(mediumFileUrl, function(err) {
+							                // output.jpg is a 300 pixels wide and 200 pixels high image
+							                // containing a scaled and cropped version of input.jpg
+											console.log(err);
+							            });
+										sharp(req.file.buffer)
+							            .resize(1200, 900)
+							            .toFile(largeFileUrl, function(err) {
+							                // output.jpg is a 300 pixels wide and 200 pixels high image
+							                // containing a scaled and cropped version of input.jpg
+											console.log(err);
+							            });
+										var insertNewsImageQuery = "UPDATE news SET image_path=" + connection.escape(filename) + " where id=" + result.insertId;
+										connection.query(insertNewsImageQuery, function(err, result) {
+											if(err) console.log(err);
+										})
+									});
+
 									return res.json({
 										success: true
 									})

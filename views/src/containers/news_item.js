@@ -18,7 +18,7 @@ class NewsItem extends Component {
                 </div>
             )
         }
-        const url=`${ROOT_URL}/news_images/${this.props.activeNews.image_path}`;
+        const url=`${ROOT_URL}/news_images/large/${this.props.activeNews.image_path}`;
 
         return (
             <div className="container">

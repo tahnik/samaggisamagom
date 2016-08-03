@@ -1,8 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var path = require("path");
-
 var React = require('react');
+
+var mysql      = require('mysql');
+var connection = mysql.createConnection({
+	host	: 'localhost',
+	user	: 'TAHNIK',
+	password: 'jE*ah5jU',
+	database: 'SAMAGGI'
+});
+
 
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -18,6 +26,8 @@ import axios from 'axios';
 
 var fs = require("fs");
 
+connection.connect();
+
 router.get('/', function (req, res) {
 	match({ routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {
 		if (error) {
@@ -31,33 +41,38 @@ router.get('/', function (req, res) {
 
 			const store = createStore(reducers);
 
-            var newsUrl = `${ROOT_URL_SECURE}/api/news/top`;
-            axios.get(newsUrl)
-            .then(response => {
-                store.dispatch({
-    				type: TOP_NEWS,
-    				payload: response
-    			});
+            var getNewsQuery = "SELECT * FROM news ORDER BY id DESC LIMIT 5";
+        	connection.query(getNewsQuery, function(err, result) {
+        		if(err) {
+        			console.log(err);
+        		}else {
+                    var jsonResponse = {
+						data: {
+	                        success: true,
+	                        news: result
+						}
+                    }
+                    store.dispatch({
+        				type: TOP_NEWS,
+        				payload: jsonResponse
+        			});
 
-                var htmlToSend = renderToString(
-    				<Provider store={store}>
-    					<RouterContext {...renderProps} />
-    				</Provider>
-    			)
-                var finalState = store.getState();
-                //console.log(finalState);
-                var url = "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css"
-                axios.get(url)
-                .then(response => {
-                    res.status(200).send(renderFullPage(htmlToSend, finalState, response));
-                })
-                .catch(() => {
-                    console.log("There's a problem");
-                });
-            })
-            .catch(() => {
-                console.log("There's a problem");
-            });
+                    var htmlToSend = renderToString(
+        				<Provider store={store}>
+        					<RouterContext {...renderProps} />
+        				</Provider>
+        			)
+                    var finalState = store.getState();
+                    var url = "./public/stylesheets/bootstrap.min.css";
+                    fs.readFile(url, function (err, data) {
+                        if (err) {
+                            return console.error(err);
+                        }else {
+                            res.status(200).send(renderFullPage(htmlToSend, finalState, data.toString()));
+                        }
+                    });
+        		}
+        	})
 		} else {
 			res.status(404).send('Not found')
 		}
@@ -94,14 +109,13 @@ function renderFullPage(html, initialState, boostrapCSS) {
 
     	<!-- Bootstrap CSS -->
         <style>
-            ${boostrapCSS.data}
+            ${boostrapCSS}
         </style>
 
         <link rel="shortcut icon" href="../resources/favicon.ico">
         <style>
             .main,.row,.vertical-center{position:relative}.top_nav,.vertical-center{top:50%;transform:translateY(-50%)}#exCollapsingNavbar2>ul>li>input,.top_nav_buttons{border-radius:0;box-shadow:0 1px 3px grey}.row{margin:0}#reactbody{text-align:center}.main{margin-top:5vh}.top_nav{right:0;position:absolute}@media (min-width:992px){#exCollapsingNavbar2>ul>li>input{width:30vw}}@media (max-width:992px){.top_nav{position:relative;top:0;transform:translateY(0)}.navbar{margin:0 auto}#exCollapsingNavbar2>ul>li.nav-item{float:none;margin:8px 0}}.top_nav_buttons{background-color:#e04226;color:#fff}.news_main_link{color:#696969}.news_main_link:hover{color:#2e2e2e}.news_main_link:visited{color:#696969}.dropdown-item{color:#fff}
         </style>
-        <link rel="stylesheet" href="../stylesheets/font-awesome/css/font-awesome.min.css">
     </head>
     <body>
 
@@ -121,7 +135,7 @@ function renderFullPage(html, initialState, boostrapCSS) {
 
 /*
 <style>
-    .main,.row,.vertical-center{position:relative}.top_nav,.vertical-center{top:50%;transform:translateY(-50%)}#exCollapsingNavbar2>ul>li>input,.top_nav_buttons{border-radius:0;box-shadow:0 1px 3px grey}.row{margin:0}#reactbody{text-align:center}.main{margin-top:5vh}.top_nav{right:0;position:absolute}@media (min-width:992px){#exCollapsingNavbar2>ul>li>input{width:30vw}}@media (max-width:992px){.top_nav{position:relative;top:0;transform:translateY(0)}.navbar{margin:0 auto}#exCollapsingNavbar2>ul>li.nav-item{float:none;margin:8px 0}}.top_nav_buttons{background-color:#e04226;color:#fff}
+    .main,.row,.vertical-center{position:relative}.top_nav,.vertical-center{top:50%;transform:translateY(-50%)}#exCollapsingNavbar2>ul>li>input,.top_nav_buttons{border-radius:0;box-shadow:0 1px 3px grey}.row{margin:0}#reactbody{text-align:center}.main{margin-top:5vh}.top_nav{right:0;position:absolute}@media (min-width:992px){#exCollapsingNavbar2>ul>li>input{width:30vw}}@media (max-width:992px){.top_nav{position:relative;top:0;transform:translateY(0)}.navbar{margin:0 auto}#exCollapsingNavbar2>ul>li.nav-item{float:none;margin:8px 0}}.top_nav_buttons{background-color:#e04226;color:#fff}.news_main_link{color:#696969}.news_main_link:hover{color:#2e2e2e}.news_main_link:visited{color:#696969}.dropdown-item{color:#fff}
 </style>
 */
 

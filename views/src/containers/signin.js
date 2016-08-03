@@ -19,6 +19,13 @@ class Signin extends Component {
 		}
 	}
 	render() {
+		if(this.props.authentication.authenticated){
+			return (
+				<div>
+    				Loading...
+    			</div>
+			)
+		}
 		const { fields: { email, password }, handleSubmit } = this.props;
 		return(
 			<div className="row">

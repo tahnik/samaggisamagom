@@ -2,7 +2,6 @@ var express = require('express');
 var app = express();
 var index = require('./routes/index');
 var api = require('./routes/api');
-var newsImage = require('./routes/news_image');
 var cors = require('cors');
 var fs = require('fs')
 var morgan = require('morgan')
@@ -19,8 +18,10 @@ app.use('/bin', express.static('./bin'));
 app.use('/stylesheets', express.static('./public/stylesheets'));
 app.use('/resources', express.static('./public/resources'));
 app.use('/javascripts', express.static('./public/javascripts'));
-//app.use('/news_images', express.static('./news_images'));
-app.use('/news_images', newsImage);
+app.use('/news_images/small', express.static('./news_images/small'));
+app.use('/news_images/medium', express.static('./news_images/medium'));
+app.use('/news_images/large', express.static('./news_images/large'));
+
 
 app.use('/', index);
 app.use('/view/*', index);

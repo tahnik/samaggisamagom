@@ -4,7 +4,7 @@ import { ROOT_URL } from '../root_url';
 
 class NewsMainItem extends Component {
     render() {
-        const url=`${ROOT_URL}/news_images/${this.props.news.image_path}`;
+        const url=`${ROOT_URL}/news_images/small/${this.props.news.image_path}`;
         var maxLength = 200;
         var trimmedString = this.props.news.body.substr(0, maxLength);
 

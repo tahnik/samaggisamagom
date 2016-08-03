@@ -19,6 +19,13 @@ class Signup extends Component {
 		}
 	}
 	render() {
+		if(this.props.authentication.authenticated){
+			return (
+				<div>
+    				Loading...
+    			</div>
+			)
+		}
 		const { fields: { email, password, confirmPassword }, handleSubmit } = this.props;
 		return(
 			<div className="row">
@@ -45,7 +52,7 @@ class Signup extends Component {
 						</div>
 
 
-						{ !this.props.authentication.loading && this.props.authentication.error ? <div style={{ marginBottom: 5, color: "rgb(217, 83, 79)" }}>Something went wrong. Please try again later</div> : <div></div>}
+						{ !this.props.authentication.loading && this.props.authentication.signUperror ? <div style={{ marginBottom: 5, color: "rgb(217, 83, 79)" }}>Something went wrong. Please try again later</div> : <div></div>}
 						{ this.renderSubmitButton() }
 						<Link to="/" className="btn btn-danger" style={{ marginLeft: 10 }}>Cancel</Link>
 					</form>

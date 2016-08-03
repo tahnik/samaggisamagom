@@ -4,7 +4,7 @@ import { ROOT_URL } from '../root_url';
 
 class NewsHomeItem extends Component {
     render() {
-        const url=`${ROOT_URL}/news_images/${this.props.news.image_path}`;
+        const url=`${ROOT_URL}/news_images/medium/${this.props.news.image_path}`;
         var maxLength = 200;
         var trimmedString = this.props.news.body.substr(0, maxLength);
 
@@ -17,7 +17,7 @@ class NewsHomeItem extends Component {
             <div className="card">
                 <div className="card-block">
                     <h4 className="card-title">{this.props.news.title}</h4>
-                    <h6 className="card-subtitle text-muted">{this.props.news.created_on.replace(/T|Z/g, ' ')}</h6>
+                    <h6 className="card-subtitle text-muted">{this.props.news.created_on.toString().replace(/T|Z/g, ' ')}</h6>
                 </div>
                 <img style={{ width: '100%' }} src={url} alt="Card image" />
                     <div className="card-block">
