@@ -1,27 +1,14 @@
 {
   "name": "SamaggiSamagom",
-  "version": "2.2.1",
-  "description": "Boilerplate for ReactJS project with ExpressJS server. It uses webpack and babel",
+  "version": "0.1",
+  "description": "Social Website for Thai Society Samaggi Samagom",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon ./bin/server.bundle.js",
+    "start": "node ./bin/server.bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tahnik/react-express-webpack-babel"
-  },
-  "keywords": [
-    "react",
-    "Samaggi",
-    "Samagom"
-  ],
   "author": "Tahnik Mustasin",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tahnik/react-express-webpack-babel/issues"
-  },
-  "homepage": "https://github.com/tahnik/react-express-webpack-babel#readme",
   "dependencies": {
     "axios": "^0.13.1",
     "babel": "^6.5.2",
