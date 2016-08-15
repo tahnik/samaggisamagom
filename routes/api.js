@@ -329,7 +329,7 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 			var body = req.body.body;
 			var user_id = decoded.id;
 
-			var getRoleQuery = "SELECT role FROM user_roles where id=" + user_id;
+			var getRoleQuery = "SELECT role FROM user_roles where user_id=" + user_id;
 
 			connection.query(getRoleQuery, function(err, result) {
 				if(err) {

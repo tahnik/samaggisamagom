@@ -6,6 +6,7 @@ import Signin from './containers/signin';
 import Signup from './containers/signup';
 import NewsItem from './containers/news_item';
 import CreateNews from './containers/create_news';
+import CreateEvent from './containers/create_events';
 import requireAuthAdmin from './containers/require_auth_admin';
 import redirectAuth from './containers/redirect_authenticated';
 
@@ -20,6 +21,7 @@ export default (
             <Route path="/create/news" component={requireAuthAdmin(CreateNews)} />
             <Route path="/news" component={News} />
             <Route path="/news/:id" component={NewsItem} />
+            <Route path="/events" component={CreateEvent} />
         </Route>
     </Router>
 )
