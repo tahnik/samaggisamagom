@@ -1,10 +1,10 @@
 {
   "name": "SamaggiSamagom",
-  "version": "0.1",
+  "version": "1.0.0",
   "description": "Social Website for Thai Society Samaggi Samagom",
   "main": "app.js",
   "scripts": {
-    "start": "node ./bin/server.bundle.js",
+    "start": "nodemon ./bin/server.bundle.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tahnik Mustasin",
@@ -38,6 +38,11 @@
     "webpack-dev-server": "^1.14.1"
   },
   "devDependencies": {
-    "webpack-node-externals": "^1.2.0"
+    "gulp": "^3.9.1",
+    "gulp-livereload": "^3.8.1",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-notify": "^2.2.0",
+    "webpack-node-externals": "^1.2.0",
+    "webpack-stream": "^3.2.0"
   }
 }

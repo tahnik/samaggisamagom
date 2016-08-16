@@ -16,13 +16,13 @@ class NewsHomeItem extends Component {
         return (
             <div className="card">
                 <div className="card-block">
-                    <h4 className="card-title">{this.props.news.title}</h4>
+                    <h3 className="card-title">{this.props.news.title}</h3>
                     <h6 className="card-subtitle text-muted">{this.props.news.created_on.toString().replace(/T|Z/g, ' ')}</h6>
                 </div>
                 <img style={{ width: '100%' }} src={url} alt="Card image" />
                     <div className="card-block">
                         <p className="card-text">{trimmedString}</p>
-                        <Link to={`/news/${this.props.news.id}`}><button type="button" className="btn btn-primary">Read more</button></Link>
+                        <Link to={`/news/${this.props.news.id}`}><button type="button" className="btn top_nav_buttons">Read more</button></Link>
                     </div>
                 </div>
         )

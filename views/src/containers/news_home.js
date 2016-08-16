@@ -16,7 +16,10 @@ class NewsHome extends Component {
 			)
 		}
 		return(
-			<div className="col-md-6" style={{ marginTop: '1em', marginLeft: '2vw' }}>
+			<div className="col-md-6 news_home" style={{ marginTop: '1em', marginLeft: '2vw' }}>
+				<div className="news_home_container">
+					<h3>Recent News</h3>
+				</div>
    				{ this.props.allNews.map((news) => {
 					return (
 						<NewsHomeItem key={news.id} news={news} />

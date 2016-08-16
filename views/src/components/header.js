@@ -54,9 +54,9 @@ class Header extends Component {
         }
         return(
             <div>
-                <div className="row">
-                    <div className="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 col-md-offset-5 col-md-2 col-lg-offset-0 col-lg-2">
-                        <img style={{ width: '100%' }} src="http://samaggisamagom.org/resources/samaggi.jpg" />
+                <div className="row top_navbar">
+                    <div className="col-xs-6 col-sm-offset-4 col-sm-4 col-md-offset-5 col-md-2 col-lg-offset-0 col-lg-2">
+                        <img src="http://samaggisamagom.org/resources/samaggi.png" />
                     </div>
                     <div className="col-xs-12 col-md-12 col-lg-10 top_nav">
                             <nav className="navbar">

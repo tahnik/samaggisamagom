@@ -245,7 +245,6 @@ var getNewsByPage = function(page, maxNews, res) {
 	//of news by NEWS_LIMIT. NEWS_LIMIT here is a static number for limiting the number of news
 	//in a page
 	var numberOfPages = Math.ceil(maxNews/NEWS_LIMIT);
-	console.log(numberOfPages);
 	if(page > numberOfPages) {
 		return res.json({
 			success: false,
@@ -277,6 +276,12 @@ var getNewsMax = function(req, res, callback) {
 		if(err) {
 			console.log(err);
 		}else {
+			if(!result[0].MAX_NEWS_ID) {
+				return res.json({
+					success: false,
+					message: "No news to be fetched"
+				})
+			}
 			callback(req.query.page, result[0].MAX_NEWS_ID, res);
 		}
 	})
@@ -297,6 +302,12 @@ router.get('/news/top', function(req, res) {
 })
 
 router.get('/news/:id', function(req, res) {
+	if(!req.params.id) {
+		return res.json({
+			success: false,
+			message: "No ID provided"
+		})
+	}
 	var getNewsQuery = "SELECT * FROM news WHERE id=" + req.params.id;
 	connection.query(getNewsQuery, function(err, result) {
 		if(err) {
@@ -316,6 +327,11 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 		return res.json({
 			success: false,
 			message: "No token provided"
+		})
+	}else if(!req.file) {
+		return res.json({
+			success: false,
+			message: "No Image Provided"
 		})
 	}
 	jwt.verify(req.body.token, superSecret, function(err, decoded) {

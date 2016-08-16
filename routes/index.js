@@ -113,9 +113,7 @@ function renderFullPage(html, initialState, boostrapCSS) {
         </style>
 
         <link rel="shortcut icon" href="../resources/favicon.ico">
-        <style>
-            .main,.row,.vertical-center{position:relative}.top_nav,.vertical-center{top:50%;transform:translateY(-50%)}#exCollapsingNavbar2>ul>li>input,.top_nav_buttons{border-radius:0;box-shadow:0 1px 3px grey}.row{margin:0}#reactbody{text-align:center}.main{margin-top:5vh}.top_nav{right:0;position:absolute}@media (min-width:992px){#exCollapsingNavbar2>ul>li>input{width:30vw}}@media (max-width:992px){.top_nav{position:relative;top:0;transform:translateY(0)}.navbar{margin:0 auto}#exCollapsingNavbar2>ul>li.nav-item{float:none;margin:8px 0}}.top_nav_buttons{background-color:#e04226;color:#fff}.news_main_link{color:#696969}.news_main_link:hover{color:#2e2e2e}.news_main_link:visited{color:#696969}.dropdown-item{color:#fff}
-        </style>
+        <link rel="stylesheet" href="../stylesheets/main.css">
     </head>
     <body>
 
