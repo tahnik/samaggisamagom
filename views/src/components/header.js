@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { signout } from '../actions/auth_actions';
 import { browserHistory } from 'react-router';
+import $ from 'jquery';
 
 
 class Header extends Component {
+    componentDidMount() {
+        var header = ReactDOM.findDOMNode(this.refs.top_navbar);
+        var navbar = ReactDOM.findDOMNode(this.refs.navbar);
+        $(document).scroll(function () {
+            if($(document).scrollTop() > 10) {
+                $(header).css({
+                    'height': '8vh',
+                })
+            }else {
+                $(header).css({
+                    'height': '15vh'
+                });
+            }
+        })
+    }
     redirectAuth() {
         if(this.props.authentication.authenticated){
             this.props.signout();
@@ -54,12 +71,12 @@ class Header extends Component {
         }
         return(
             <div>
-                <div className="row top_navbar">
-                    <div className="col-xs-6 col-sm-offset-4 col-sm-4 col-md-offset-5 col-md-2 col-lg-offset-0 col-lg-2">
+                <div className="row top_navbar" ref="top_navbar">
+                    <div className="col-xs-offset-3 col-xs-6 col-sm-offset-4 col-sm-4 col-md-offset-5 col-md-2 col-lg-offset-0 col-lg-2">
                         <img src="http://samaggisamagom.org/resources/samaggi.png" />
                     </div>
                     <div className="col-xs-12 col-md-12 col-lg-10 top_nav">
-                            <nav className="navbar">
+                            <nav className="navbar" ref="navbar">
                                 <button className="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
                                     &#9776;
                                 </button>
@@ -84,7 +101,9 @@ class Header extends Component {
                             </nav>
                     </div>
                 </div>
-                { this.props.children }
+                <div className="main_body">
+                    { this.props.children }
+                </div>
             </div>
         )
     }
