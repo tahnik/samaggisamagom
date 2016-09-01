@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import NewsHome from '../containers/news_home';
+import NewsHome from '../containers/home_containers/news_home';
 
 class Home extends Component {
     render() {

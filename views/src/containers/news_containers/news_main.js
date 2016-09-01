@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import NewsMainItem from './news_main_item';
-import { getNewsWithPage } from '../actions/news_actions';
+import { getNewsWithPage } from '../../actions/news_actions';
 import { connect } from 'react-redux';
-import Pagination from './reusable_containers/pagination';
+import Pagination from '../reusable_containers/pagination';
 
 class NewsMain extends Component {
 	/* When the component has mounter check if there's a parameter otherwise grab the first page

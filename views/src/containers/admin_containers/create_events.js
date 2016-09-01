@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { createPost } from '../actions/news_actions';
+import { createPost } from '../../actions/news_actions';
 import { Link } from 'react-router';
 
-class CreatePost extends Component {
+class CreateEvents extends Component {
 	onSubmit(props) {
 		this.props.createPost(props);
 	}
@@ -22,8 +22,8 @@ class CreatePost extends Component {
 		if(!this.props.authenticated || this.props.role == 0){
 			return (
 				<div>
-    				Loading...
-    			</div>
+					Loading...
+				</div>
 			)
 		}
 		const { fields: { title, body, news_image }, handleSubmit } = this.props;
@@ -90,4 +90,4 @@ export default reduxForm({
 	form: 'PostsNewNews',
 	fields: ['title', 'body', 'news_image'],
 	validate
-}, mapStateToProps, { createPost })(CreatePost);
+}, mapStateToProps, { createPost })(CreateEvents);

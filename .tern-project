@@ -1,4 +1,7 @@
 {
   "ecmaVersion": 6,
-  "libs": []
+  "libs": [],
+  "plugins": {
+    "node": {}
+  }
 }

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import { createPost } from '../actions/news_actions';
+import { createPost } from '../../actions/news_actions';
 import { Link } from 'react-router';
 
-class CreateEvents extends Component {
+class CreatePost extends Component {
 	onSubmit(props) {
 		this.props.createPost(props);
 	}
@@ -90,4 +90,4 @@ export default reduxForm({
 	form: 'PostsNewNews',
 	fields: ['title', 'body', 'news_image'],
 	validate
-}, mapStateToProps, { createPost })(CreateEvents);
+}, mapStateToProps, { createPost })(CreatePost);

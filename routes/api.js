@@ -425,6 +425,11 @@ router.post('/news', upload.single('news_image'), function(req, res) {
 			})
 		}
 	})
+});
+
+
+router.post('/events', function (req, res) {
+
 })
 
 module.exports = router;

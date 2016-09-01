@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import NewsHomeItem from './news_home_item';
-import { getTopNews } from '../actions/news_actions';
+import { getTopNews } from '../../actions/news_actions';
 import { connect } from 'react-redux';
 
 class NewsHome extends Component {

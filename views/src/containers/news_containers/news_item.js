@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { getNews, destroyActiveNews } from '../actions/news_actions';
+import { getNews, destroyActiveNews } from '../../actions/news_actions';
 import { connect } from 'react-redux';
-import { ROOT_URL } from '../root_url';
+import { ROOT_URL } from '../../root_url';
 
 class NewsItem extends Component {
     componentWillUnmount() {
@@ -19,7 +19,6 @@ class NewsItem extends Component {
             )
         }
         const url=`${ROOT_URL}/news_images/large/${this.props.activeNews.image_path}`;
-
         return (
             <div className="container">
                 <div className="col-md-10">
@@ -30,7 +29,7 @@ class NewsItem extends Component {
                         </div>
                         <img style={{ width: '100%' }} src={url} alt="Card image" />
                         <div className="card-block">
-                            <p className="card-text">{ this.props.activeNews.body }</p>
+                            <p className="card-text" style={{ textAlign: 'left' }}>{ this.props.activeNews.body }</p>
                         </div>
                     </div>
                 </div>

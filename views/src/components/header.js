@@ -4,24 +4,18 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { signout } from '../actions/auth_actions';
 import { browserHistory } from 'react-router';
-import $ from 'jquery';
 
 
 class Header extends Component {
     componentDidMount() {
         var header = ReactDOM.findDOMNode(this.refs.top_navbar);
-        var navbar = ReactDOM.findDOMNode(this.refs.navbar);
-        $(document).scroll(function () {
-            if($(document).scrollTop() > 10) {
-                $(header).css({
-                    'height': '8vh',
-                })
+        window.addEventListener('scroll', function() {
+            if(window.scrollY > 10) {
+            	header.style.height = '8vh';
             }else {
-                $(header).css({
-                    'height': '15vh'
-                });
+                header.style.height = '15vh';
             }
-        })
+        });
     }
     redirectAuth() {
         if(this.props.authentication.authenticated){

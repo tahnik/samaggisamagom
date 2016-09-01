@@ -1,6 +1,6 @@
 import React, { Component, StyleSheet } from 'react';
 import { Link } from 'react-router';
-import { ROOT_URL } from '../root_url';
+import { ROOT_URL } from '../../root_url';
 
 class NewsMainItem extends Component {
     render() {
